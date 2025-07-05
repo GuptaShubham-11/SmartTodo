@@ -4,4 +4,5 @@ package-lock.json
 .env.local
 .env.sample
 .env
-.pnpm-lock.yaml
+package.json
+pnpm-lock.yaml
