@@ -10,5 +10,7 @@ router.get('/group/:groupId', boardController.getBoardsByGroup);
 router.get('/:boardId', boardController.getBoardById);
 router.put('/:boardId', boardController.updateBoard);
 router.delete('/:boardId', boardController.deleteBoard);
+router.put('/add-member/:boardId', boardController.addMemberToBoard);
+router.put('/remove-member/:boardId', boardController.removeMemberFromBoard);
 
 export default router;

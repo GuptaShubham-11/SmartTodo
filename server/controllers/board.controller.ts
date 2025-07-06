@@ -34,7 +34,17 @@ const createBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
     name,
     groupId,
     createdBy: userId,
+    members: [userId],
   });
+  if (!newBoard) {
+    throw new ApiError(400, 'Board not created!');
+  }
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(groupId.toString()).emit('board_created', newBoard);
+  }
 
   res.status(200).json(new ApiResponse(200, 'Board created.', newBoard));
 });
@@ -101,6 +111,12 @@ const updateBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
   board.name = name || board.name;
   await board.save();
 
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(board.groupId.toString()).emit('board_updated', board);
+  }
+
   res.status(200).json(new ApiResponse(200, 'Board updated.', board));
 });
 
@@ -125,15 +141,84 @@ const deleteBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
     throw new ApiError(403, 'Not authorized to delete this board!');
   }
 
-  await Board.findByIdAndDelete(boardId);
+  const deletedBoard = await Board.findByIdAndDelete(boardId);
+
+  if (!deletedBoard) {
+    throw new ApiError(400, 'Board not deleted!');
+  }
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(board.groupId.toString()).emit('board_deleted', deletedBoard);
+  }
 
   res.status(200).json(new ApiResponse(200, 'Board deleted.'));
 });
 
+const addMemberToBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
+  const { boardId } = req.params;
+  const { userId } = req.body;
+
+  if (!boardId) {
+    throw new ApiError(400, 'Board id is required');
+  }
+
+  if (!userId) {
+    throw new ApiError(400, 'User id is required');
+  }
+
+  const board = await Board.findById(boardId);
+  if (!board) {
+    throw new ApiError(404, 'Board not found!');
+  }
+
+  board.members.push(userId);
+  await board.save();
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(board.groupId.toString()).emit('board_add_member', board);
+  }
+
+  res.status(200).json(new ApiResponse(200, 'Member on board.', board));
+});
+
+const removeMemberFromBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
+  const { boardId } = req.params;
+  const { userId } = req.body;
+
+  if (!boardId) {
+    throw new ApiError(400, 'Board id is required');
+  }
+
+  if (!userId) {
+    throw new ApiError(400, 'User id is required');
+  }
+
+  const board = await Board.findById(boardId);
+  if (!board) {
+    throw new ApiError(404, 'Board not found!');
+  }
+
+  board.members = board.members.filter((member) => member.toString() !== userId);
+  await board.save();
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(board.groupId.toString()).emit('board_remove_member', board);
+  }
+
+  res.status(200).json(new ApiResponse(200, 'Member removed.', board));
+});
 export const boardController = {
   createBoard,
   getBoardsByGroup,
   getBoardById,
   updateBoard,
   deleteBoard,
+  addMemberToBoard,
+  removeMemberFromBoard,
 };
