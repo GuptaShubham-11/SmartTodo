@@ -156,63 +156,69 @@ const deleteBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
   res.status(200).json(new ApiResponse(200, 'Board deleted.'));
 });
 
-const addMemberToBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { boardId } = req.params;
-  const { userId } = req.body;
+const addMemberToBoard = asyncHandler(
+  async (req: AuthenticatedRequest, res) => {
+    const { boardId } = req.params;
+    const { userId } = req.body;
 
-  if (!boardId) {
-    throw new ApiError(400, 'Board id is required');
+    if (!boardId) {
+      throw new ApiError(400, 'Board id is required');
+    }
+
+    if (!userId) {
+      throw new ApiError(400, 'User id is required');
+    }
+
+    const board = await Board.findById(boardId);
+    if (!board) {
+      throw new ApiError(404, 'Board not found!');
+    }
+
+    board.members.push(userId);
+    await board.save();
+
+    // 🎯 Emit real-time update
+    const io = req.app.locals.io;
+    if (io) {
+      io.to(board.groupId.toString()).emit('board_add_member', board);
+    }
+
+    res.status(200).json(new ApiResponse(200, 'Member on board.', board));
   }
+);
 
-  if (!userId) {
-    throw new ApiError(400, 'User id is required');
+const removeMemberFromBoard = asyncHandler(
+  async (req: AuthenticatedRequest, res) => {
+    const { boardId } = req.params;
+    const { userId } = req.body;
+
+    if (!boardId) {
+      throw new ApiError(400, 'Board id is required');
+    }
+
+    if (!userId) {
+      throw new ApiError(400, 'User id is required');
+    }
+
+    const board = await Board.findById(boardId);
+    if (!board) {
+      throw new ApiError(404, 'Board not found!');
+    }
+
+    board.members = board.members.filter(
+      (member) => member.toString() !== userId
+    );
+    await board.save();
+
+    // 🎯 Emit real-time update
+    const io = req.app.locals.io;
+    if (io) {
+      io.to(board.groupId.toString()).emit('board_remove_member', board);
+    }
+
+    res.status(200).json(new ApiResponse(200, 'Member removed.', board));
   }
-
-  const board = await Board.findById(boardId);
-  if (!board) {
-    throw new ApiError(404, 'Board not found!');
-  }
-
-  board.members.push(userId);
-  await board.save();
-
-  // 🎯 Emit real-time update
-  const io = req.app.locals.io;
-  if (io) {
-    io.to(board.groupId.toString()).emit('board_add_member', board);
-  }
-
-  res.status(200).json(new ApiResponse(200, 'Member on board.', board));
-});
-
-const removeMemberFromBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { boardId } = req.params;
-  const { userId } = req.body;
-
-  if (!boardId) {
-    throw new ApiError(400, 'Board id is required');
-  }
-
-  if (!userId) {
-    throw new ApiError(400, 'User id is required');
-  }
-
-  const board = await Board.findById(boardId);
-  if (!board) {
-    throw new ApiError(404, 'Board not found!');
-  }
-
-  board.members = board.members.filter((member) => member.toString() !== userId);
-  await board.save();
-
-  // 🎯 Emit real-time update
-  const io = req.app.locals.io;
-  if (io) {
-    io.to(board.groupId.toString()).emit('board_remove_member', board);
-  }
-
-  res.status(200).json(new ApiResponse(200, 'Member removed.', board));
-});
+);
 export const boardController = {
   createBoard,
   getBoardsByGroup,
