@@ -182,6 +182,11 @@ body {
     background-color: #e6a935;
 }
 
+.signup-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .signin-link {
     margin-top: 1rem;
     text-align: center;
