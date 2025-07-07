@@ -64,7 +64,7 @@ const signUp = asyncHandler(async (req, res) => {
   // Create new user
   await User.create({ name, email, password });
 
-  res.status(201).json(new ApiResponse(201, 'User created successfully.'));
+  res.status(200).json(new ApiResponse(200, 'User created successfully.'));
 });
 
 const signIn = asyncHandler(async (req, res) => {
@@ -83,14 +83,14 @@ const signIn = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new ApiError(401, 'User not found!');
+    throw new ApiError(400, 'User not found!');
   }
 
   // Check password
   const isPasswordCorrect = await user.isPasswordCorrect(password);
 
   if (!isPasswordCorrect) {
-    throw new ApiError(401, 'Invalid password!');
+    throw new ApiError(400, 'Invalid password!');
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
@@ -98,11 +98,11 @@ const signIn = asyncHandler(async (req, res) => {
   );
 
   res
-    .status(201)
+    .status(200)
     .cookie('refreshToken', refreshToken, options)
     .cookie('accessToken', accessToken, options)
     .json(
-      new ApiResponse(201, 'User signed in successfully.', {
+      new ApiResponse(200, 'User signed in successfully.', {
         user: {
           _id: user._id,
           name: user.name,
@@ -124,10 +124,10 @@ const signOut = asyncHandler(async (req: AuthenticatedRequest, res) => {
   );
 
   res
-    .status(201)
+    .status(200)
     .clearCookie('refreshToken', options)
     .clearCookie('accessToken', options)
-    .json(new ApiResponse(201, 'User signed out successfully.'));
+    .json(new ApiResponse(200, 'User signed out successfully.'));
 });
 
 const currentUser = asyncHandler(async (req: AuthenticatedRequest, res) => {
