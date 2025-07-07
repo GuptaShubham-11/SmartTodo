@@ -1,0 +1,212 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+.signup-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.signup-left {
+    width: 45%;
+    background-color: var(--secondary);
+    color: var(--background);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    overflow: hidden;
+}
+
+.left-content {
+    text-align: center;
+    z-index: 2;
+}
+
+.left-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.left-content h1 span {
+    color: var(--primary);
+}
+
+.left-content p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+}
+
+/* Floating shapes */
+.shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0.55;
+    animation: float 5s ease-in-out infinite;
+}
+
+.square {
+    top: 15%;
+    left: 10%;
+    color: var(--accent);
+    animation-delay: 0s;
+}
+
+.pencil {
+    bottom: 20%;
+    right: 15%;
+    color: #0d62eb;
+    animation-delay: 1s;
+}
+
+.check {
+    top: 30%;
+    right: 10%;
+    color: var(--surface);
+    animation-delay: 2s;
+}
+
+.circle {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    width: 40px;
+    height: 40px;
+    background-color: #b23ded;
+    border-radius: 50%;
+    opacity: 0.55;
+    animation: float 6s ease-in-out infinite;
+}
+
+.dot {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    width: 10px;
+    height: 10px;
+    background-color: #89ed3d;
+    border-radius: 50%;
+    opacity: 0.55;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(10deg);
+    }
+}
+
+/* Right Side */
+.signup-right {
+    width: 55%;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-form {
+    background-color: var(--surface);
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(255, 184, 76, 0.1);
+}
+
+.signup-form h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: var(--background);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.show-password {
+    cursor: pointer;
+}
+
+.input-group input {
+    background: none;
+    border: none;
+    outline: none;
+    margin-left: 0.6rem;
+    color: var(--text);
+    width: 100%;
+}
+
+.signup-form button {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--background);
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #e6a935;
+}
+
+.signin-link {
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.signin-link a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+@media screen and (max-width: 965px) {
+    .signup-left {
+        display: none;
+    }
+
+    .signup-right {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .signup-form {
+        padding: 0.5rem;
+    }
+
+}
