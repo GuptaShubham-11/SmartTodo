@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.signin-form {
+  background-color: var(--surface);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(255, 184, 76, 0.1);
+}
+
+.signin-form h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background-color: var(--background);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.input-group input {
+  background: none;
+  border: none;
+  outline: none;
+  margin-left: 0.6rem;
+  color: var(--text);
+  width: 100%;
+}
+
+.show-password {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.signin-form button {
+  width: 100%;
+  background-color: var(--primary);
+  color: var(--background);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signin-form button:hover {
+  background-color: #e6a935;
+}
+
+.signin-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.signup-link {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.signup-link a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+@media screen and (max-width: 425px) {
+  .signin-form {
+    padding: 0.5rem;
+  }
+}
