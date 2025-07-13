@@ -10,7 +10,6 @@
 .layout__content {
   flex: 1;
   padding: 2rem;
-  margin-top: 64px;
   /* height of fixed header */
   position: relative;
   overflow-x: hidden;
