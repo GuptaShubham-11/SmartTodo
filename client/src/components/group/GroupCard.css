@@ -1,0 +1,105 @@
+.GroupCard-container {
+  background-color: var(--surface);
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.GroupCard-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-color: var(--accent);
+}
+
+.GroupCard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.GroupCard-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.GroupCard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.GroupCard-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.GroupCard-label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: var(--secondary);
+  gap: 4px;
+}
+
+.GroupCard-icon {
+  color: var(--secondary);
+}
+
+.GroupCard-badge {
+  background-color: var(--accent);
+  color: #fff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  min-width: 28px;
+  text-align: center;
+}
+
+.GroupCard-date {
+  font-size: 0.85rem;
+  color: var(--secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.GroupCard-value {
+  font-weight: 400;
+  color: var(--text);
+  text-align: end;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .GroupCard-container {
+    padding: 1rem;
+  }
+
+  .GroupCard-title {
+    font-size: 1.2rem;
+  }
+
+  .GroupCard-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+}
