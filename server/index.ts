@@ -24,7 +24,7 @@ dbToConnect()
       process.exit(1);
     });
 
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`🚀 Server running on port: ${port}`);
     });
   })

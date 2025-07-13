@@ -25,11 +25,15 @@ import userRouter from './routes/user.route';
 import groupRouter from './routes/group.route';
 import boardRouter from './routes/board.route';
 import taskRouter from './routes/task.route';
+import actionlogRouter from './routes/actionlog.route';
+import dashboardRouter from './routes/dashboard.route';
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/groups', groupRouter);
 app.use('/api/v1/boards', boardRouter);
 app.use('/api/v1/tasks', taskRouter);
+app.use('/api/v1/actionlogs', actionlogRouter);
+app.use('/api/v1/dashboards', dashboardRouter);
 
 // Global error handler
 app.use(
