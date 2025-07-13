@@ -79,7 +79,7 @@ const KanbanBoard = () => {
           ? { status: newStatus, userId: null }
           : { status: newStatus, userId: user?._id };
 
-      const res = await taskApi.assignTask(taskId, payload);
+      const res = await taskApi.updateTask(taskId, payload);
       update(res.data);
       socket.emit('task_updated', { boardId, task: res.data });
     } catch {
