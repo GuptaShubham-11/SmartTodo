@@ -66,14 +66,14 @@ const Board = () => {
 
   const accessibleBoards = user
     ? boards.filter((board, idx) => {
-        const isMember = board.members.some((member) => {
-          if (typeof member === 'string') return member === user?._id;
-        });
+      const isMember = board.members.some((member) => {
+        if (typeof member === 'string') return member === user?._id;
+      });
 
-        const isOwner = board.createdBy._id === user._id;
-        console.log(idx, 'isMember', isMember, 'isOwner', isOwner);
-        return isMember || isOwner;
-      })
+      const isOwner = board.createdBy._id === user._id;
+      console.log(idx, 'isMember', isMember, 'isOwner', isOwner);
+      return isMember || isOwner;
+    })
     : [];
 
   console.log(
@@ -121,9 +121,6 @@ const Board = () => {
                 groupId={groupId!}
                 boardId={board._id}
                 name={board.name}
-                onEdit={() =>
-                  navigate(`/groups/${groupId}/boards/${board._id}`)
-                }
                 onDelete={handleDelete}
                 isOwner={String(board.createdBy._id) === String(user?._id)}
               />
