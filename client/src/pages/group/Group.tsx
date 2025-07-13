@@ -25,7 +25,7 @@ const Group = () => {
       const res = await groupApi.getUserGroups();
       setGroups(res.data || []);
     } catch (err: any) {
-      console.error('Failed to fetch groups', err);
+      // console.error('Failed to fetch groups', err);
       toast.error(err.message || 'Failed to fetch groups');
     } finally {
       setIsLoading(false);
@@ -40,7 +40,7 @@ const Group = () => {
       setModalOpen(false);
       fetchGroups();
     } catch (err: any) {
-      console.error('Group creation failed', err);
+      // console.error('Group creation failed', err);
       toast.error(err.message || 'Failed to create!');
     } finally {
       setIsLoading(false);

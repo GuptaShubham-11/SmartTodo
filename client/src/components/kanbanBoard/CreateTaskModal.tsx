@@ -46,7 +46,7 @@ const CreateTaskModal = ({
       onCreate();
       onClose();
     } catch (error: any) {
-      console.error('Error creating task:', error);
+      // console.error('Error creating task:', error);
       toast.error(error.message || 'Failed to create task.');
     } finally {
       setIsLoading(false);

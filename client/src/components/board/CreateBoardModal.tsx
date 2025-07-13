@@ -30,7 +30,7 @@ const CreateBoardModal: React.FC<Props> = ({
       onBoardCreated();
       onClose();
     } catch (err: any) {
-      console.error('Failed to create board', err);
+      // console.error('Failed to create board', err);
       toast.error(err.message || 'Failed to create board');
     } finally {
       setIsLoading(false);

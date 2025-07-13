@@ -20,15 +20,15 @@ dbToConnect()
     app.locals.io = io;
 
     app.on('error', (error: any) => {
-      console.error('❌ UNEXPECTED ERROR:', error.message);
+      // console.error('❌ UNEXPECTED ERROR:', error.message);
       process.exit(1);
     });
 
     server.listen(port, () => {
-      console.log(`🚀 Server running on port: ${port}`);
+      // console.log(`🚀 Server running on port: ${port}`);
     });
   })
   .catch((error) => {
-    console.error(`❌ MongoDB connection error:`, error);
+    // console.error(`❌ MongoDB connection error:`, error);
     process.exit(1);
   });

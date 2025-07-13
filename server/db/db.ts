@@ -13,11 +13,11 @@ export const dbToConnect = async (): Promise<void> => {
       dbName: process.env.DB_NAME,
     });
 
-    console.log(
-      `✅ MongoDB connected! 🛢️ DB Host: ${connectionInstance.connection.host}`
-    );
+    // console.log(
+    //   `✅ MongoDB connected! 🛢️ DB Host: ${connectionInstance.connection.host}`
+    // );
   } catch (error) {
-    console.error('❌ Database connection error:', error);
+    // console.error('❌ Database connection error:', error);
     process.exit(1); // Exit process if connection fails
   }
 };

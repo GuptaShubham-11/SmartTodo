@@ -26,7 +26,7 @@ const ActionLogModal = ({ boardId, onClose }: ActionLogModalProps) => {
         const res = await boardApi.getActionLogs(boardId);
         setLogs(res.data || []);
       } catch (err) {
-        console.error('Error fetching logs:', err);
+        // console.error('Error fetching logs:', err);
       } finally {
         setLoading(false);
       }

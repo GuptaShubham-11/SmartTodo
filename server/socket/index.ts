@@ -15,14 +15,14 @@ export const setupServer = (server: HttpServer) => {
   });
 
   io.on('connection', (socket) => {
-    console.log('🟢 Socket connected:', socket.id);
+    // console.log('🟢 Socket connected:', socket.id);
 
     socket.on('join_board', (boardId: string) => {
-      console.log(`🔁 Socket ${socket.id} joined board ${boardId}`);
+      // console.log(`🔁 Socket ${socket.id} joined board ${boardId}`);
     });
 
     socket.on('disconnect', () => {
-      console.log('🔴 Socket disconnected:', socket.id);
+      // console.log('🔴 Socket disconnected:', socket.id);
     });
   });
 

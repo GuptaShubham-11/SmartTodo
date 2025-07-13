@@ -21,7 +21,7 @@ function App() {
     const getCurrentUser = async () => {
       try {
         const response = await userApi.getCurrentUser();
-        console.log(response);
+        // console.log(response);
 
         if (response.statusCode < 400) {
           login(response.data);

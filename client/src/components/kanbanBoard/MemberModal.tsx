@@ -17,7 +17,7 @@ const MemberModal = ({ boardId, members, onClose, onChange }: any) => {
       await boardApi.removeMemberFromBoard(boardId, { userId: memberId });
       toast.success('Member removed.');
     } catch (error: any) {
-      console.error('Error removing member', error);
+      // console.error('Error removing member', error);
       toast.error(error.message || 'Failed to remove member.');
     } finally {
       setIsLoading(false);

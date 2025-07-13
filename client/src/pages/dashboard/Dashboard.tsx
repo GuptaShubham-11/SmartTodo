@@ -57,7 +57,6 @@ const Dashboard: React.FC = () => {
   const [popularBoards, setPopularBoards] = useState<PopularBoard[]>([]);
   const toast = useToast();
   const [loading, setLoading] = useState(true);
-  console.log(statusRatio);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +75,7 @@ const Dashboard: React.FC = () => {
         setActivity(activity.data);
         setPopularBoards(popularBoards.data);
       } catch (error: any) {
-        console.error('Error fetching dashboard data:', error);
+        // console.error('Error fetching dashboard data:', error);
         toast.error(error.message || 'Failed to fetch dashboard data.');
       } finally {
         setLoading(false);

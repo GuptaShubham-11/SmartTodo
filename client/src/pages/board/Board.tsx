@@ -33,7 +33,7 @@ const Board = () => {
       const res = await boardApi.getBoardsByGroupId(groupId!);
       setBoards(res.data);
     } catch (err: any) {
-      console.error('Failed to fetch boards');
+      // console.error('Failed to fetch boards');
       toast.error(err.message || 'Failed to fetch boards');
     } finally {
       setIsLoading(false);
@@ -47,7 +47,7 @@ const Board = () => {
       toast.success('Board deleted.');
       fetchBoards();
     } catch (err: any) {
-      console.error('Failed to delete board');
+      // console.error('Failed to delete board');
       toast.error(err.message || 'Failed to delete board');
     } finally {
       setIsLoading(false);
@@ -71,19 +71,9 @@ const Board = () => {
       });
 
       const isOwner = board.createdBy._id === user._id;
-      console.log(idx, 'isMember', isMember, 'isOwner', isOwner);
       return isMember || isOwner;
     })
     : [];
-
-  console.log(
-    'accessibleBoards',
-    accessibleBoards,
-    'boards',
-    boards,
-    'user',
-    user
-  );
 
   return (
     <div className="boards-page">
