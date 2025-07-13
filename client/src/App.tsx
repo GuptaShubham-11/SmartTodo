@@ -1,34 +1,114 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import {
+  PublicRoute,
+  Signup,
+  Signin,
+  ProtectedRoute,
+  Layout,
+} from './components';
+
+import { useEffect, useState } from 'react';
+import { useAuthStore } from './store/authStore';
+import { userApi } from './api/userApi';
+import { Board, Dashboard, Group, KanbanBoard } from './pages';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { login, logout } = useAuthStore();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const response = await userApi.getCurrentUser();
+        console.log(response);
+
+        if (response.statusCode < 400) {
+          login(response.data);
+        }
+      } catch {
+        logout();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getCurrentUser();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <div>Home</div>
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <PublicRoute>
+              <Signin />
+            </PublicRoute>
+          }
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/groups"
+            element={
+              <ProtectedRoute>
+                <Group />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/groups/:groupId/boards"
+            element={
+              <ProtectedRoute>
+                <Board />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/groups/:groupId/boards/:boardId"
+            element={
+              <ProtectedRoute>
+                <KanbanBoard />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
