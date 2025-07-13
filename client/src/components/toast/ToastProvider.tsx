@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import Toast from './Toast';
-import './toast.css';
+import './Toast.css';
 
 type ToastType = 'success' | 'error';
 
