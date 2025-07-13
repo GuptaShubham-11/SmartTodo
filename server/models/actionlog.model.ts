@@ -3,11 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IActionLog extends Document {
   boardId: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
-  actionType:
-    | 'CREATE_TASK'
-    | 'UPDATE_TASK'
-    | 'DELETE_TASK'
-    | 'SMART_ASSIGN_Task';
+  actionType: string;
   description: string;
   createdAt: Date;
   updatedAt: Date;
@@ -27,7 +23,6 @@ const actionLogSchema = new Schema<IActionLog>(
     },
     actionType: {
       type: String,
-      enum: ['CREATE_TASK', 'UPDATE_TASK', 'DELETE_TASK'],
       required: true,
     },
     description: {

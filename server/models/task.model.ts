@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export type TaskStatus = 'todo' | 'in-progress' | 'done';
+export type TaskStatus = 'todo' | 'in progress' | 'done';
 export type TaskPriority = 'low' | 'medium' | 'high';
 
 export interface ITask extends Document {
@@ -20,7 +20,7 @@ const taskSchema = new Schema<ITask>(
     description: { type: String },
     status: {
       type: String,
-      enum: ['todo', 'in-progress', 'done'],
+      enum: ['todo', 'in progress', 'done'],
       default: 'todo',
     },
     priority: {
