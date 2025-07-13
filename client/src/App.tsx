@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/authStore';
 import { userApi } from './api/userApi';
-import { Board, Dashboard, Group, KanbanBoard } from './pages';
+import { Board, Dashboard, Group, Home, KanbanBoard } from './pages';
 
 function App() {
   const { login, logout } = useAuthStore();
@@ -47,7 +47,7 @@ function App() {
           path="/"
           element={
             <PublicRoute>
-              <div>Home</div>
+              <Home />
             </PublicRoute>
           }
         />

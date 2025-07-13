@@ -90,6 +90,8 @@ const Signin = () => {
 
         <p className="signup-link">
           No Account? <Link to="/signup">Sign Up</Link>
+          {' ||  '}
+          <Link to="/">Home</Link>
         </p>
       </form>
     </div>

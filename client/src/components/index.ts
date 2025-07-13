@@ -14,6 +14,9 @@ import TaskCard from './kanbanBoard/TaskCard';
 import MemberModal from './kanbanBoard/MemberModal';
 import ActionLogModal from './kanbanBoard/ActionLogModal';
 import GroupMemberModal from './group/GroupMemberModal';
+import KanbanBoard from './home/KanbanBoard';
+import FeatureCard from './home/FeatureCard';
+import ComparisonCard from './home/ComparisonCard';
 
 export {
   Signup,
@@ -32,4 +35,7 @@ export {
   MemberModal,
   ActionLogModal,
   GroupMemberModal,
+  KanbanBoard,
+  FeatureCard,
+  ComparisonCard,
 };

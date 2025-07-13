@@ -13,7 +13,7 @@ import { useState } from 'react';
 import Loader from '../loader/Loader';
 import { userApi } from '../../api/userApi';
 import { useToast } from '../toast/ToastProvider';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -128,7 +128,9 @@ const Signup = () => {
           </button>
 
           <p className="signin-link">
-            Already have an account? <a href="/signin">Sign In</a>
+            Already have an account? <Link to="/signin">Sign In</Link>
+            {' ||  '}
+            <Link to="/">Home</Link>
           </p>
         </form>
       </div>
