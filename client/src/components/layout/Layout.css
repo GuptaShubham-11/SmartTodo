@@ -1,0 +1,44 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+}
+
+.layout__content {
+  flex: 1;
+  padding: 2rem;
+  margin-top: 64px;
+  /* height of fixed header */
+  position: relative;
+  overflow-x: hidden;
+  z-index: 1;
+  transition: padding 0.3s ease;
+}
+
+/* Add subtle fade-in for pages */
+.layout__content > * {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .layout__content {
+    padding: 1rem;
+    margin-top: 64px;
+  }
+}
