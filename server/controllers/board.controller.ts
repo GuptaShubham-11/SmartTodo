@@ -4,6 +4,7 @@ import { asyncHandler } from '../utils/asyncHandler';
 import Board from '../models/board.model';
 import Group from '../models/group.model';
 import { AuthenticatedRequest } from '../middlewares/auth.middleware';
+import ActionLog from '../models/actionlog.model';
 
 const createBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
   if (!req.body) {
@@ -38,12 +39,6 @@ const createBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
   });
   if (!newBoard) {
     throw new ApiError(400, 'Board not created!');
-  }
-
-  // 🎯 Emit real-time update
-  const io = req.app.locals.io;
-  if (io) {
-    io.to(groupId.toString()).emit('board_created', newBoard);
   }
 
   res.status(200).json(new ApiResponse(200, 'Board created.', newBoard));
@@ -111,12 +106,6 @@ const updateBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
   board.name = name || board.name;
   await board.save();
 
-  // 🎯 Emit real-time update
-  const io = req.app.locals.io;
-  if (io) {
-    io.to(board.groupId.toString()).emit('board_updated', board);
-  }
-
   res.status(200).json(new ApiResponse(200, 'Board updated.', board));
 });
 
@@ -147,12 +136,6 @@ const deleteBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
     throw new ApiError(400, 'Board not deleted!');
   }
 
-  // 🎯 Emit real-time update
-  const io = req.app.locals.io;
-  if (io) {
-    io.to(board.groupId.toString()).emit('board_deleted', deletedBoard);
-  }
-
   res.status(200).json(new ApiResponse(200, 'Board deleted.'));
 });
 
@@ -176,6 +159,13 @@ const addMemberToBoard = asyncHandler(
 
     board.members.push(userId);
     await board.save();
+
+    await ActionLog.create({
+      actionType: 'ADD_MEMBER_TO_BOARD',
+      description: `Added member "${userId}" to board "${board.name} By ${req.user?.name}"`,
+      boardId,
+      userId,
+    });
 
     // 🎯 Emit real-time update
     const io = req.app.locals.io;
@@ -210,6 +200,13 @@ const removeMemberFromBoard = asyncHandler(
     );
     await board.save();
 
+    await ActionLog.create({
+      actionType: 'REMOVE_MEMBER_FROM_BOARD',
+      description: `Removed member "${userId}" from board "${board.name} By ${req.user?.name}"`,
+      boardId,
+      userId,
+    });
+
     // 🎯 Emit real-time update
     const io = req.app.locals.io;
     if (io) {
@@ -217,6 +214,26 @@ const removeMemberFromBoard = asyncHandler(
     }
 
     res.status(200).json(new ApiResponse(200, 'Member removed.', board));
+  }
+);
+
+const getMembersByBoard = asyncHandler(
+  async (req: AuthenticatedRequest, res) => {
+    const { boardId } = req.params;
+
+    if (!boardId) {
+      throw new ApiError(400, 'Board id is required');
+    }
+
+    const board = await Board.findById(boardId).populate(
+      'members',
+      'name email'
+    );
+    if (!board) {
+      throw new ApiError(404, 'Board not found!');
+    }
+
+    res.status(200).json(new ApiResponse(200, 'Board members.', board.members));
   }
 );
 export const boardController = {
@@ -227,4 +244,5 @@ export const boardController = {
   deleteBoard,
   addMemberToBoard,
   removeMemberFromBoard,
+  getMembersByBoard,
 };

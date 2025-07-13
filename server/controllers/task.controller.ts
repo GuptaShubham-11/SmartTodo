@@ -49,7 +49,7 @@ const createTask = asyncHandler(async (req: AuthenticatedRequest, res) => {
     boardId,
     userId: req.user?._id,
     actionType: 'CREATE_TASK',
-    description: `Created task "${title}"`,
+    description: `Created task "${title} By ${req.user?.name}"`,
   });
 
   if (!log) {
@@ -107,7 +107,7 @@ const updateTask = asyncHandler(async (req: AuthenticatedRequest, res) => {
     boardId: task.boardId,
     userId: req.user?._id,
     actionType: 'UPDATE_TASK',
-    description: `Updated task "${task.title}"`,
+    description: `Updated task "${task.title} By ${req.user?.name}"`,
   });
 
   if (!log) {
@@ -142,7 +142,7 @@ const deleteTask = asyncHandler(async (req: AuthenticatedRequest, res) => {
     boardId: task.boardId,
     userId: req.user?._id,
     actionType: 'DELETE_TASK',
-    description: `Deleted task "${task.title}"`,
+    description: `Deleted task "${task.title}" By ${req.user?.name}`,
   });
 
   if (!log) {
@@ -154,6 +154,50 @@ const deleteTask = asyncHandler(async (req: AuthenticatedRequest, res) => {
   }
 
   res.status(200).json(new ApiResponse(200, 'Task deleted.'));
+});
+
+const assignTask = asyncHandler(async (req: AuthenticatedRequest, res) => {
+  if (!req.body) {
+    throw new ApiError(400, 'Request data is missing.');
+  }
+
+  const { taskId } = req.params;
+  const { userId, newStatus } = req.body;
+  if (!taskId) {
+    throw new ApiError(400, 'Task id is required');
+  }
+
+  const task = await Task.findById(taskId);
+  if (!task) {
+    throw new ApiError(404, 'Task not found');
+  }
+
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(404, 'User not found');
+  }
+
+  const updatedTask = await Task.findByIdAndUpdate(
+    taskId,
+    {
+      assignedTo: userId,
+      status: newStatus,
+    },
+    { new: true }
+  );
+
+  await ActionLog.create({
+    boardId: task.boardId,
+    userId: req.user?._id,
+    actionType: 'ASSIGN_TASK',
+    description: `Assigned task "${task.title}" to ${user._id} By ${req.user?.name}`,
+  });
+
+  if (!updateTask) {
+    throw new ApiError(400, 'Task not updated');
+  }
+
+  res.status(200).json(new ApiResponse(200, 'Task assigned.', updatedTask));
 });
 
 const smartAssign = asyncHandler(async (req: AuthenticatedRequest, res) => {
@@ -172,11 +216,15 @@ const smartAssign = asyncHandler(async (req: AuthenticatedRequest, res) => {
   }
 
   // 1. Get all users in the board
-  const board = await Board.find({ boardId }).populate(
+  const board = await Board.findById(boardId).populate(
     'members',
     '_id name email'
   );
-  const users = board[0].members;
+  const users = board?.members;
+
+  if (!users) {
+    throw new ApiError(404, 'Not Found members!');
+  }
 
   // 2. For each user, count how many tasks they have assigned
   const userTaskCounts = await Promise.all(
@@ -199,6 +247,7 @@ const smartAssign = asyncHandler(async (req: AuthenticatedRequest, res) => {
 
   // 4. Assign the task
   task.assignedTo = selectedUser._id;
+  task.status = 'in progress';
   await task.save();
 
   // 5. Emit real-time update
@@ -212,7 +261,7 @@ const smartAssign = asyncHandler(async (req: AuthenticatedRequest, res) => {
     boardId: task.boardId,
     userId: req.user?._id,
     actionType: 'SMART_ASSIGN_TASK',
-    description: `Smart assigned task "${task.title}" to ${selectedUser._id}`,
+    description: `Smart assigned task "${task.title}" to ${selectedUser._id} By ${req.user?.name}`,
   });
 
   res
@@ -226,4 +275,5 @@ export const taskController = {
   updateTask,
   deleteTask,
   smartAssign,
+  assignTask,
 };
