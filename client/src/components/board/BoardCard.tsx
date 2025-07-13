@@ -7,7 +7,7 @@ interface BoardCardProps {
   groupId: string;
   boardId: string;
   name: string;
-  onEdit?: (boardId: string) => void;
+  // onEdit?: (boardId: string) => void;
   onDelete?: (boardId: string) => void;
   isOwner?: boolean;
 }
@@ -16,7 +16,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
   groupId,
   boardId,
   name,
-  onEdit,
+  // onEdit,
   onDelete,
   isOwner,
 }) => {

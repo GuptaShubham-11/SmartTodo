@@ -124,21 +124,23 @@ const GroupMemberModal = ({ groupId, isOpen, onClose }: Props) => {
           </button>
         </div>
 
-        <ul className="group-member-list">
-          {members.map((member) => (
-            <li key={member._id}>
-              <span>
-                {member.name} ({member.email})
-              </span>
-              <button
-                onClick={() => handleRemoveMember(member._id)}
-                disabled={isRemoving}
-              >
-                {isRemoving ? <Loader /> : 'Remove'}
-              </button>
-            </li>
-          ))}
-        </ul>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <ul className="group-member-list">
+            {members.map((member) => (
+              <li key={member._id}>
+                <span>{member.name}</span>
+                <button
+                  onClick={() => handleRemoveMember(member._id)}
+                  disabled={isRemoving}
+                >
+                  {isRemoving ? <Loader /> : 'Remove'}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
