@@ -1,0 +1,129 @@
+.groups-page {
+  margin-top: -1.5rem;
+  padding: 0 1rem;
+  max-width: 1200px;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.groups-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.groups-header h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.create-group-btn {
+  background-color: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.45rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.create-group-btn:hover {
+  background-color: #5952d4;
+}
+
+.create-group-btn .btn-text {
+  display: inline;
+}
+
+.menage-members-btn {
+  width: 100%;
+  padding: 0.65rem;
+  border: none;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: var(--accent);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    transform 0.15s ease;
+}
+
+.menage-members-btn:hover {
+  background-color: #5952d4;
+}
+
+/* Hide text on small screens */
+@media (max-width: 640px) {
+  .create-group-btn .btn-text {
+    display: none;
+  }
+}
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2.5rem;
+}
+
+.group-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--surface);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+  min-height: 180px;
+  gap: 0.5rem;
+}
+
+.group-card-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+.group-card-wrapper .btn-secondary {
+  margin-top: 0.75rem;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+
+.group-card-wrapper .btn-secondary:hover {
+  background-color: var(--accent);
+  color: white;
+}
+
+.groups-loader-wrapper,
+.groups-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0;
+}
+
+.groups-empty {
+  color: var(--secondary);
+  font-style: italic;
+  font-size: 1rem;
+}
