@@ -1,0 +1,99 @@
+.add-member-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.add-member-modal {
+  background: var(--surface);
+  color: var(--text);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 92%;
+  max-width: 420px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.25s ease;
+  position: relative;
+}
+
+.add-member-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.add-member-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.add-member-close {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0.3rem;
+  transition: background 0.2s ease;
+}
+
+.add-member-close:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.add-member-modal input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.2s ease;
+}
+
+.add-member-modal input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.add-member-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-member-btn {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  background-color: var(--primary);
+  color: var(--background);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.add-member-btn:hover {
+  background-color: #e0a93f;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

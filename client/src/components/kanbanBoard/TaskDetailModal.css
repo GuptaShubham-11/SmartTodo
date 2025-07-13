@@ -1,0 +1,128 @@
+.task-detail-modal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 77;
+}
+
+.task-detail-modal {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  color: var(--text);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.task-detail-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.task-detail-modal__close-btn {
+  background: none;
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 0.4rem;
+  color: var(--text);
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.task-detail-modal__close-btn:hover {
+  background-color: var(--background);
+}
+
+.task-detail-modal p {
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.task-detail-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-smart,
+.btn-remove {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: black;
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: black;
+}
+
+.btn-secondary:hover {
+  background: #c0c0c0;
+}
+
+.btn-smart {
+  background: #4caf50;
+  color: white;
+}
+
+.btn-smart:hover {
+  background: #3e8e41;
+}
+
+.btn-remove {
+  background: #f44336;
+  color: white;
+}
+
+.btn-remove:hover {
+  background: #d32f2f;
+}
+
+@media (max-width: 400px) {
+  .task-detail-modal {
+    padding: 1rem;
+  }
+
+  .task-detail-modal__actions {
+    flex-direction: column;
+  }
+}
