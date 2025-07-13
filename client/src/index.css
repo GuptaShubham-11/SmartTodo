@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.2;
@@ -8,7 +14,7 @@
   background-color: #1b1b1b;
 
   --background: #1b1b1b;
-  --surface: #2a2a2a;
+  --surface: #242124;
   --primary: #ffb84c;
   --secondary: #e5e4e2;
   --text: #f0f0f0;
