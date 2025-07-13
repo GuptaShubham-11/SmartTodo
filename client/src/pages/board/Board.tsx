@@ -65,7 +65,7 @@ const Board = () => {
   }
 
   const accessibleBoards = user
-    ? boards.filter((board, idx) => {
+    ? boards.filter((board) => {
       const isMember = board.members.some((member) => {
         if (typeof member === 'string') return member === user?._id;
       });

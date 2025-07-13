@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/authStore';
 import { userApi } from './api/userApi';
 import { Board, Dashboard, Group, Home, KanbanBoard } from './pages';
+import { Loader } from 'lucide-react';
 
 function App() {
   const { login, logout } = useAuthStore();
@@ -37,7 +38,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
