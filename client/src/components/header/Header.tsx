@@ -7,7 +7,8 @@ import {
   LogOut,
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import './Header.css';
+// import './Header.css';
+
 import { useAuthStore } from '../../store/authStore';
 import { useToast } from '../toast/ToastProvider';
 import { userApi } from '../../api/userApi';
@@ -63,47 +64,56 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="header">
-      <div className="header-left">
-        <h1 className="header-logo">
-          Smart<span>Todo</span>
-        </h1>
+    <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white border-b border-gray-800">
+
+      <div className="flex items-center">
+        <h1 className="text-2xl font-bold tracking-wide">
+  Smart<span className="text-yellow-400">Todo</span>
+</h1>
+
       </div>
 
-      <nav className="header-nav">
+      <nav className="flex items-center gap-6">
         {navLinks.map(({ to, label, icon }) => (
           <Link
             key={to}
             to={to}
-            className={`header-link ${location.pathname === to ? 'active' : ''}`}
+            className={`flex items-center gap-2 text-sm font-medium transition-colors ${
+  location.pathname === to
+    ? 'text-yellow-400'
+    : 'text-gray-300 hover:text-white'
+}`}
           >
             {icon}
-            <span className="link-label">{label}</span>
+            <span>{label}</span>
           </Link>
         ))}
 
-        <div className="user-menu" ref={userBoxRef}>
+        <div className="relative" ref={userBoxRef}>
           <button
-            className="user-icon-btn"
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700 hover:text-white transition-colors"
+
             onClick={() => setUserBoxOpen((prev) => !prev)}
           >
             <User size={20} />
           </button>
 
           {isUserBoxOpen && (
-            <div className="user-dropdown">
-              <p className="user-name">{user?.name}</p>
-              <p className="user-email">{user?.email}</p>
-              <div className="user-id-row">
-                <span className="user-id">{user?._id}</span>
-                <button className="copy-btn" onClick={handleCopyId}>
+            <div className="absolute right-0 mt-2 w-64 rounded-lg bg-gray-900 border border-gray-800 shadow-lg p-4 space-y-2">
+              <p className="text-sm font-semibold text-white">{user?.name}</p>
+              <p className="text-xs text-gray-400">{user?.email}</p>
+              <div className="flex items-center justify-between gap-2 text-xs text-gray-300">
+                <span className="truncate">{user?._id}</span>
+                <button onClick={handleCopyId}
+  className="p-1 rounded hover:bg-gray-800 transition">
                   <ClipboardCopy size={16} />
                 </button>
               </div>
               <button
                 disabled={isLoading}
-                className="signout-btn"
                 onClick={handleSignOut}
+                className="flex items-center justify-center gap-2 w-full mt-2 px-3 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition disabled:opacity-50"
+                
               >
                 {isLoading ? (
                   <Loader />
