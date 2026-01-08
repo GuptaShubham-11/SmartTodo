@@ -6,6 +6,8 @@ import { boardApi } from '../../api/boardApi';
 import { useToast } from '../../components/toast/ToastProvider';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { useBoardStore } from '../../store/boardStore';
+import { socket } from '../../sockets';
 
 interface Board {
   _id: string;
@@ -19,13 +21,21 @@ interface Board {
 }
 
 const Board = () => {
-  const { groupId } = useParams();
+  const toast = useToast();
   const navigate = useNavigate();
-  const [boards, setBoards] = useState<Board[]>([]);
+  const { groupId } = useParams();
+  const { user } = useAuthStore();
+
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
-  const { user } = useAuthStore();
+
+  const {
+    boards,
+    setBoards,
+    add,
+    remove,
+    update
+  } = useBoardStore();
 
   const fetchBoards = async () => {
     try {
@@ -44,8 +54,8 @@ const Board = () => {
     try {
       setIsLoading(true);
       await boardApi.deleteBoard(boardId);
+      socket.on('board_deleted', remove);
       toast.success('Board deleted.');
-      fetchBoards();
     } catch (err: any) {
       // console.error('Failed to delete board');
       toast.error(err.message || 'Failed to delete board');
@@ -54,8 +64,33 @@ const Board = () => {
     }
   };
 
+  const handleUpdate = async (updateData: Partial<Board> & { _id: string }) => {
+    try {
+      setIsLoading(true);
+      await boardApi.updateBoard(updateData._id, updateData);
+      socket.on('board_updated', update);
+      toast.success('Board updated.');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update board.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     if (groupId) fetchBoards();
+
+    socket.emit('join_group', groupId);
+    socket.on('board_created', add);
+    socket.on('board_updated', update);
+    socket.on('board_deleted', remove);
+
+    return () => {
+      socket.emit('leave_group', groupId);
+      socket.off('board_created', add);
+      socket.off('board_updated', update);
+      socket.off('board_deleted', remove);
+    };
   }, [groupId]);
 
   if (!user) {
@@ -111,6 +146,7 @@ const Board = () => {
                 groupId={groupId!}
                 boardId={board._id}
                 name={board.name}
+                onEdit={handleUpdate}
                 onDelete={handleDelete}
                 isOwner={String(board.createdBy._id) === String(user?._id)}
               />

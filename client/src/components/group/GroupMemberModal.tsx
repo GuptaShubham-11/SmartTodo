@@ -36,7 +36,7 @@ const GroupMemberModal = ({ groupId, isOpen, onClose }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, [groupId, toast]);
+  }, [groupId]);
 
   const handleAddMember = async () => {
     if (!userId.trim()) return;

@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "dev": "pnpm --parallel --filter ./client --filter ./server dev"
   },
   "devDependencies": {
     "prettier": "3.6.2"

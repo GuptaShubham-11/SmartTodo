@@ -3,9 +3,9 @@ import './CreateTaskModal.css';
 import { taskApi } from '../../api/taskApi';
 import { useToast } from '../toast/ToastProvider';
 import Loader from '../loader/Loader';
-import { useTaskStore } from '../../store/taskStore';
-import { socket } from '../../sockets';
 import { X } from 'lucide-react';
+
+// TODO: After this add socket logic on board and actionlog
 
 interface CreateTaskModalProps {
   boardId: string;
@@ -24,7 +24,6 @@ const CreateTaskModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const toast = useToast();
-  const { add } = useTaskStore();
 
   const handleCreate = async () => {
     if (!title.trim()) {
@@ -34,14 +33,12 @@ const CreateTaskModal = ({
 
     try {
       setIsLoading(true);
-      const res = await taskApi.createTask({
+      await taskApi.createTask({
         title,
         description: desc,
         priority,
         boardId,
       });
-      add(res.data);
-      socket.emit('task_created', res.data);
       toast.success('Task created.');
       onCreate();
       onClose();

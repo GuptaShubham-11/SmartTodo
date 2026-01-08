@@ -4,6 +4,7 @@ import { useToast } from '../toast/ToastProvider';
 import { boardApi } from '../../api/boardApi';
 import Loader from '../loader/Loader';
 import { X } from 'lucide-react';
+import { socket } from '../../sockets';
 
 const AddMemberModal = ({ boardId, onClose, onAdded }: any) => {
   const [userId, setUserId] = useState('');
@@ -17,7 +18,8 @@ const AddMemberModal = ({ boardId, onClose, onAdded }: any) => {
       setIsLoading(true);
       await boardApi.addMemberToBoard(boardId, { userId });
       toast.success('Member added.');
-      onAdded();
+      socket.on('board_add_member', onAdded);
+      // onAdded();
       onClose();
     } catch (error: any) {
       toast.error(error.message || 'Failed to add member.');

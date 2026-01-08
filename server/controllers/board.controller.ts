@@ -41,6 +41,20 @@ const createBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
     throw new ApiError(400, 'Board not created!');
   }
 
+  await ActionLog.create({
+    actionType: 'CREATE_BOARD',
+    description: `Created board "${name}" By ${req.user?.name}`,
+    userId,
+    groupId,
+    boardId: newBoard._id,
+  });
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(newBoard.groupId.toString()).emit('board_created', newBoard);
+  }
+
   res.status(200).json(new ApiResponse(200, 'Board created.', newBoard));
 });
 
@@ -106,6 +120,24 @@ const updateBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
   board.name = name || board.name;
   await board.save();
 
+  if (!board) {
+    throw new ApiError(400, 'Board not updated!');
+  }
+
+  await ActionLog.create({
+    actionType: 'UPDATE_BOARD',
+    description: `Updated board "${name}" By ${req.user?.name}`,
+    userId,
+    groupId: board.groupId,
+    boardId,
+  });
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(board.groupId.toString()).emit('board_updated', board);
+  }
+
   res.status(200).json(new ApiResponse(200, 'Board updated.', board));
 });
 
@@ -134,6 +166,20 @@ const deleteBoard = asyncHandler(async (req: AuthenticatedRequest, res) => {
 
   if (!deletedBoard) {
     throw new ApiError(400, 'Board not deleted!');
+  }
+
+  await ActionLog.create({
+    actionType: 'DELETE_BOARD',
+    description: `Deleted board "${board.name}" By ${req.user?.name}`,
+    userId,
+    groupId: board.groupId,
+    boardId,
+  });
+
+  // 🎯 Emit real-time update
+  const io = req.app.locals.io;
+  if (io) {
+    io.to(board.groupId.toString()).emit('board_deleted', board._id);
   }
 
   res.status(200).json(new ApiResponse(200, 'Board deleted.'));

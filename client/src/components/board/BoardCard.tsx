@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import './BoardCard.css';
 import { LayoutDashboard, MoreVertical } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import type { Board } from '../../pages';
 
 interface BoardCardProps {
   groupId: string;
   boardId: string;
   name: string;
-  // onEdit?: (boardId: string) => void;
+  onEdit?: (updateData: Partial<Board> & { _id: string }) => void;
   onDelete?: (boardId: string) => void;
   isOwner?: boolean;
 }
@@ -16,7 +17,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
   groupId,
   boardId,
   name,
-  // onEdit,
+  onEdit,
   onDelete,
   isOwner,
 }) => {
@@ -59,7 +60,7 @@ const BoardCard: React.FC<BoardCardProps> = ({
 
           {showActions && (
             <div className="board-card-popup">
-              {/* <button onClick={() => onEdit?.(boardId)}>Edit</button> */}
+              <button onClick={() => onEdit?.({ _id: boardId, name })}>Edit</button>
               <button onClick={() => onDelete?.(boardId)}>Delete</button>
             </div>
           )}

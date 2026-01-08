@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* Tailwind ko bata rahe hain ki ye colors use kare */
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-surface: var(--surface);
-  --color-accent: var(--accent);
-  --color-background: var(--background);
-  --color-text: var(--text);
+  --color-primary: #ffb84c;
+  --color-secondary: #e5e4e2;
+  --color-surface: #242124;
+  --color-accent: #6c63ff;
+  --color-background: #1b1b1b;
+  --color-text: #f0f0f0;
 }
 
 :root {
+  font-family: Helvetica, 'Times New Roman', Times, serif, Arial, sans-serif;
   --background: #1b1b1b;
   --surface: #242124;
   --primary: #ffb84c;
@@ -19,8 +19,8 @@
   --accent: #6c63ff;
 }
 
+
 body {
   background-color: var(--background);
   color: var(--text);
-  font-family: system-ui, -apple-system, sans-serif;
 }

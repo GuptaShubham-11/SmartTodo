@@ -28,7 +28,7 @@ const KanbanBoard = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { user } = useAuthStore();
-  const { tasks, setTasks, update } = useTaskStore();
+  const { add, tasks, setTasks, update } = useTaskStore();
 
   const [members, setMembers] = useState<Member[]>([]);
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -58,7 +58,7 @@ const KanbanBoard = () => {
 
     socket.emit('join_board', boardId);
     socket.on('task_updated', update);
-    socket.on('task_created', fetchTasks);
+    socket.on('task_created', add);
 
     return () => {
       socket.emit('leave_board', boardId);

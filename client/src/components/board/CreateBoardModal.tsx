@@ -4,6 +4,8 @@ import { boardApi } from '../../api/boardApi';
 import { X } from 'lucide-react';
 import { useToast } from '../toast/ToastProvider';
 import Loader from '../loader/Loader';
+import { socket } from '../../sockets';
+import { useBoardStore } from '../../store/boardStore';
 
 interface Props {
   groupId: string;
@@ -19,6 +21,7 @@ const CreateBoardModal: React.FC<Props> = ({
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const { add } = useBoardStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +30,8 @@ const CreateBoardModal: React.FC<Props> = ({
       await boardApi.createBoard({ name, groupId });
       toast.success('Board created.');
       setName('');
-      onBoardCreated();
+      socket.on('board_created', (board) => console.log(board));
+      // onBoardCreated();
       onClose();
     } catch (err: any) {
       // console.error('Failed to create board', err);

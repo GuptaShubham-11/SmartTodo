@@ -18,7 +18,23 @@ export const setupServer = (server: HttpServer) => {
     // console.log('🟢 Socket connected:', socket.id);
 
     socket.on('join_board', (boardId: string) => {
+      socket.join(boardId);
       // console.log(`🔁 Socket ${socket.id} joined board ${boardId}`);
+    });
+
+    socket.on('join_group', (groupId: string) => {
+      socket.join(groupId);
+      // console.log(`🔁 Socket ${socket.id} joined group ${groupId}`);
+    });
+
+    socket.on('leave_board', (boardId: string) => {
+      socket.leave(boardId);
+      // console.log(`🚪 Socket ${socket.id} left board ${boardId}`);
+    });
+
+    socket.on('leave_group', (groupId: string) => {
+      socket.leave(groupId);
+      // console.log(`🚪 Socket ${socket.id} left group ${groupId}`);
     });
 
     socket.on('disconnect', () => {

@@ -5,6 +5,7 @@ import { boardApi } from '../../api/boardApi';
 import { useState } from 'react';
 import Loader from '../loader/Loader';
 import AddMemberModal from './AddMemberModal';
+import { socket } from '../../sockets';
 
 const MemberModal = ({ boardId, members, onClose, onChange }: any) => {
   const toast = useToast();
@@ -15,6 +16,7 @@ const MemberModal = ({ boardId, members, onClose, onChange }: any) => {
     try {
       setIsLoading(true);
       await boardApi.removeMemberFromBoard(boardId, { userId: memberId });
+      socket.on('board_remove_member', onChange);
       toast.success('Member removed.');
     } catch (error: any) {
       // console.error('Error removing member', error);
