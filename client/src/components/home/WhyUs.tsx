@@ -67,7 +67,7 @@ export const WhyUs = memo(() => {
                     <ul className="space-y-2 text-lg text-secondary/80 ml-4" role="list">
                         {realityItems.map((text, index) => (
                             <li key={`${text}-${index}`} className="flex items-start gap-3" role="listitem">
-                                <span className="text-[#10b981] flex-shrink-0 mt-0.5" aria-hidden="true">✓</span>
+                                <span className="text-[#10b981] shrink-0 mt-0.5" aria-hidden="true">✓</span>
                                 <span className="text-secondary/80">{text}</span>
                             </li>
                         ))}
