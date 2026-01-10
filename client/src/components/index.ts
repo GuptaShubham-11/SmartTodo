@@ -14,9 +14,13 @@ import TaskCard from './kanbanBoard/TaskCard';
 import MemberModal from './kanbanBoard/MemberModal';
 import ActionLogModal from './kanbanBoard/ActionLogModal';
 import GroupMemberModal from './group/GroupMemberModal';
-import KanbanBoard from './home/KanbanBoard';
-import FeatureCard from './home/FeatureCard';
-import ComparisonCard from './home/ComparisonCard';
+import { FeatureCard } from './home/FeatureCard';
+import { Header as HomeHeader } from './home/Header';
+import { Hero } from './home/Hero';
+import { Feature } from './home/Feature';
+import { WhyUs } from './home/WhyUs';
+import { CTA } from './home/CTA';
+import { Footer } from './home/Footer';
 
 export {
   Signup,
@@ -35,7 +39,11 @@ export {
   MemberModal,
   ActionLogModal,
   GroupMemberModal,
-  KanbanBoard,
   FeatureCard,
-  ComparisonCard,
+  HomeHeader,
+  Hero,
+  Feature,
+  WhyUs,
+  CTA,
+  Footer,
 };
